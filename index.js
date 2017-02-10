@@ -6,11 +6,6 @@ const co = require('co')
 const fs = require('fs')
 const iconv = require('iconv-lite')
 
-const file = fs.readFileSync('./stock_code.txt', 'utf8')
-const SINA_STOCKS_API = 'http://hq.sinajs.cn/list='
-const stockCodes = file.split(';')
-const cycles = stockCodes.length
-
 const sleep = () => {
     let pr = new Promise((resolve, reject) => {
         setTimeout(resolve, 1000)
@@ -34,6 +29,11 @@ co(function* () {
     console.log(`完成初始化stocks ... 当前${stockCodeList.length}支 ... 等待1s`)
     
     yield sleep()
+
+    const file = fs.readFileSync('./stock_code.txt', 'utf8')
+    const SINA_STOCKS_API = 'http://hq.sinajs.cn/list='
+    const stockCodes = file.split(';')
+    const cycles = stockCodes.length
 
     // 持续查询
     for (let n = 0; n <= cycles - 1; n++) {
